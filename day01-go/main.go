@@ -7,6 +7,18 @@ import (
 	"strings"
 )
 
+func bubbleSort(arr []int) []int {
+	n := len(arr)
+	for i := 0; i < n; i++ {
+		for j := 0; j < n-i-1; j++ {
+			if arr[j] > arr[j+1] {
+				arr[j], arr[j+1] = arr[j+1], arr[j]
+			}
+		}
+	}
+	return arr
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Error: filename not given.\n\nUsage: ./your_program.sh [filename]")
@@ -37,6 +49,6 @@ func main() {
 		right = append(right, rightNumber)
 	}
 
-	fmt.Println(left)
-	fmt.Println(right)
+	left = bubbleSort(left)
+	right = bubbleSort(right)
 }
