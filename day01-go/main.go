@@ -45,7 +45,9 @@ func main() {
 	rows = rows[:len(rows)-1]
 
 	var left []int
-	var right []int
+
+	// var rightFreq map[int]int
+	rightFreq := make(map[int]int)
 
 	for _, row := range rows {
 		// fmt.Println(strings.Split(row, "   "))
@@ -54,20 +56,27 @@ func main() {
 		rightNumber, _ := strconv.Atoi(col[1])
 
 		left = append(left, leftNumber)
-		right = append(right, rightNumber)
+
+		value, ok := rightFreq[rightNumber]
+		if !ok {
+			rightFreq[rightNumber] = 1
+		} else {
+			rightFreq[rightNumber] = value + 1
+		}
 	}
 
 	left = bubbleSort(left)
-	right = bubbleSort(right)
 
 	// var distances []int
 
-	sum := 0
-	for i := 0; i < len(left); i++ {
-		sum = sum + distance(left[i], right[i])
-		// distances = append(distances, distance(left[i], right[i]))
+	similarityScore := 0
+
+	for i := range left {
+		val := rightFreq[left[i]]
+
+		similarityScore = similarityScore + left[i]*val
 	}
 
 	// fmt.Println(distances)
-	fmt.Println(sum)
+	fmt.Println(similarityScore)
 }
