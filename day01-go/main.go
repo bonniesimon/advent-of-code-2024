@@ -19,6 +19,14 @@ func bubbleSort(arr []int) []int {
 	return arr
 }
 
+func distance(x, y int) int {
+	if x > y {
+		return x - y
+	}
+
+	return y - x
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Error: filename not given.\n\nUsage: ./your_program.sh [filename]")
@@ -40,7 +48,7 @@ func main() {
 	var right []int
 
 	for _, row := range rows {
-		fmt.Println(strings.Split(row, "   "))
+		// fmt.Println(strings.Split(row, "   "))
 		col := strings.Split(row, "   ")
 		leftNumber, _ := strconv.Atoi(col[0])
 		rightNumber, _ := strconv.Atoi(col[1])
@@ -51,4 +59,15 @@ func main() {
 
 	left = bubbleSort(left)
 	right = bubbleSort(right)
+
+	// var distances []int
+
+	sum := 0
+	for i := 0; i < len(left); i++ {
+		sum = sum + distance(left[i], right[i])
+		// distances = append(distances, distance(left[i], right[i]))
+	}
+
+	// fmt.Println(distances)
+	fmt.Println(sum)
 }
