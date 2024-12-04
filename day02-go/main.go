@@ -32,9 +32,7 @@ func findDirection(difference int) Direction {
 	return INC
 }
 
-func evaluateReportSafety(reportLine string) bool {
-	report := processReportStringIntoInts(reportLine)
-
+func evaluateReportSafety(report []int) bool {
 	var difference int
 
 	var direction Direction = NONE
@@ -57,7 +55,7 @@ func evaluateReportSafety(reportLine string) bool {
 	return true
 }
 
-func processReportStringIntoInts(reportLine string) []int {
+func parseReportIntoInts(reportLine string) []int {
 	var reportInts []int
 
 	reportStrings := strings.Split(reportLine, " ")
@@ -90,7 +88,8 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		isReportSafe = evaluateReportSafety(scanner.Text())
+		report := parseReportIntoInts(scanner.Text())
+		isReportSafe = evaluateReportSafety(report)
 
 		if isReportSafe {
 			safeReports++
