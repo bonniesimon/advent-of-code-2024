@@ -1,7 +1,7 @@
 # Define variables
 APP_NAME := build/main
 GO_FILES := main.go
-INPUT_FILE := examples/input.txt
+INPUT_FILE := examples/sample-input.txt
 
 # Default target (run)
 run: build
