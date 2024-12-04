@@ -4,7 +4,7 @@ GO_FILES := main.go
 
 # Default target (run)
 run: build
-	./$(APP_NAME) examples/sample-input.txt
+	./$(APP_NAME) examples/input.txt
 
 # Build the binary
 build:

@@ -8,9 +8,53 @@ import (
 	"strings"
 )
 
-func evaluateReportSafety(reportLine string) {
+type Direction string
+
+const (
+	NONE Direction = "NONE"
+	INC  Direction = "INC"
+	DEC  Direction = "DEC"
+)
+
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+
+	return a
+}
+
+func findDirection(difference int) Direction {
+	if difference < 0 {
+		return DEC
+	}
+
+	return INC
+}
+
+func evaluateReportSafety(reportLine string) bool {
 	report := processReportStringIntoInts(reportLine)
-	fmt.Println(report)
+
+	var difference int
+
+	var direction Direction = NONE
+
+	for i := 0; i < len(report)-1; i++ {
+		difference = report[i+1] - report[i]
+		if abs(difference) == 0 || abs(difference) > 3 {
+			return false
+		}
+
+		if direction == NONE {
+			direction = findDirection(difference)
+		}
+
+		if direction != findDirection(difference) {
+			return false
+		}
+	}
+
+	return true
 }
 
 func processReportStringIntoInts(reportLine string) []int {
@@ -40,14 +84,18 @@ func main() {
 	}
 	defer file.Close()
 
-	// safeReports := 0
+	safeReports := 0
+	var isReportSafe bool
 
 	scanner := bufio.NewScanner(file)
 
-	i := 0
-	for scanner.Scan() && i < 1 {
-		i++
-		fmt.Println(scanner.Text())
-		evaluateReportSafety(scanner.Text())
+	for scanner.Scan() {
+		isReportSafe = evaluateReportSafety(scanner.Text())
+
+		if isReportSafe {
+			safeReports++
+		}
 	}
+
+	fmt.Println(safeReports)
 }
